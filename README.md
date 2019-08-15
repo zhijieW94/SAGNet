@@ -72,10 +72,10 @@ Generally, the `config.yml` is written in `json` format and contain the followin
 - `BATCH_SIZE`: apply the batch size of `BATCH_SIZE` for network training.
 - `GPU_ID`: a list for GPU ID. We use four GPUs (e.g. [0, 1, 2, 3]) for training by default.
 - `ITER_NUM`: the total training iteration number.
-- `DIR_PATH`: the directory to place all the training data. We set `/training_data` as the default directory.  
-- `RESULTS_DIRECTORY`: the directory to place the intermediate reconstructed results. We set `nn_exp_results/reconstruction_results/` as the default directory.  
-- `LOG_DIRECTORY`: the directory to place the intermediate log file. We set `nn_exp_results/logs/` as the default directory.  
-- `MODEL_DIRECTORY`: the directory to place the intermediate saved checkpoint file. We set `nn_exp_results/models/` as the default directory.  
+- `DIR_PATH`: the directory to place all the training data. We set `/training_data` as the default directory.
+- `RESULTS_DIRECTORY`: the directory to place the intermediate reconstructed results. We set `nn_exp_results/reconstruction_results/` as the default directory.
+- `LOG_DIRECTORY`: the directory to place the intermediate log file. We set `nn_exp_results/logs/` as the default directory.
+- `MODEL_DIRECTORY`: the directory to place the intermediate saved checkpoint file. We set `nn_exp_results/models/` as the default directory.
 - `PRETRAINED_MODEL_PATH`: the path to a pretrained model file for further finetuning (e.g. `trained_models/weights_17900.ckpt`).
 - `SHAPE_NAME`: synthesize shapes for the class `SHAPE_NAME`. We currently support five classes (`airplane`, `chair`, `guitar`, `lamp`, and `motorbike`). 
 
@@ -125,12 +125,13 @@ cd Visualization
 python application.py
 ```
 With the provided tool, you can visualize a group of results or a single shape. 
-For example, to visualize all the `motorbike` training data, you should click the `Open` button and choose the `data\motorbike` directory (by default).
-And when you aim to visualize a single motor shape (e.g. named `1d8fb258aac4175a5834749a5ef37100`), just click `Openone` button and choose the `data\motorbike\1d8fb258aac4175a5834749a5ef37100` directory.
+For example, to visualize all the `motorbike` training data, you should click the `Open` button and choose the `data/motorbike` directory (by default).
+And when you aim to visualize a single motor shape (e.g. named `1d8fb258aac4175a5834749a5ef37100`), just click `Openone` button and choose the `data/motorbike/1d8fb258aac4175a5834749a5ef37100` directory.
 
 
 ## Checkpoints ##
 Checkpoint files of the final model trained over all five classes are provided (Coming soon).
+
 Please unzip the downloaded file and paste the path of a checkpoint file (`.cptk`) to the `PRETRAINED_MODEL_PATH` option.
 
 ---
@@ -143,7 +144,7 @@ author = {Zhijie Wu and Xiang Wang and Di Lin and Dani Lischinski and Daniel Coh
 journal = {ACM Transactions on Graphics (Proceedings of SIGGRAPH 2019)},
 volume = {38},
 number = {4},
-pages = {91:1--91:14},  
+pages = {91:1--91:14},
 year = {2019},
 } 
 ```
