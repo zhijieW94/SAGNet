@@ -134,7 +134,7 @@ Checkpoint files of the final model trained over all five classes are provided (
 
 Please unzip the downloaded file and paste the path of a checkpoint file (`.cptk`) to the `PRETRAINED_MODEL_PATH` option.
 
----
+
 ## Cite ##
 If you find this code or data useful in your work, please cite our paper:
 ```
