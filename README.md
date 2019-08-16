@@ -59,7 +59,7 @@ TRAIN:
   ...
   ITER_NUM: 80000
   ...
-  DIR_PATH: '/training_data/'
+  DIR_PATH: 'training_data/'
   RESULTS_DIRECTORY: 'nn_exp_results/reconstruction_results/'
   LOG_DIRECTORY: 'nn_exp_results/logs/'
   MODEL_DIRECTORY: 'nn_exp_results/models/'
