@@ -7,7 +7,7 @@ The project page is available at [https://vcc.tech/research/2019/SAGnet/](https:
 
 
 ## Introduction ##
-This repository contains an official implementation for [SAGNet: Structure-aware Generative Network for 3D-Shape Modeling](http://vcc.szu.edu.cn/file/upload_file//image/research/att201905040553/SAGNet.pdf) by Wu et al. 
+This repository contains an official implementation for [SAGNet: Structure-aware Generative Network for 3D-Shape Modeling](http://vcc.szu.edu.cn/file/upload_file//image/research/att201905040553/SAGNet.pdf). 
 This model takes voxel maps as geometry and bounding boxes as structure and learn a latent space through a joint analysis.
 The network is implemented with Python and [TensorFlow](https://www.tensorflow.org/).
 
