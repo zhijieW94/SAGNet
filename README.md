@@ -1,4 +1,8 @@
 # SAGNet: Structure-aware Generative Network for 3D-Shape Modeling
+by Zhijie Wu, Xiang Wang, Di Lin, Dani Lischinski, Daniel Cohen-Or, Hui Huang
+
+
+## Introduction ##
 This repository contains an official implementation for [SAGNet: Structure-aware Generative Network for 3D-Shape Modeling](http://vcc.szu.edu.cn/file/upload_file//image/research/att201905040553/SAGNet.pdf) by Wu et al. 
 This model takes voxel maps as geometry and bounding boxes as structure and learn a latent space through a joint analysis.
 The network is implemented with Python and [TensorFlow](https://www.tensorflow.org/).
@@ -105,11 +109,8 @@ In the `TEST` section, this file (`config.yml`) has the following options:
 - `RESULTS_DIRECTORY`: the directory to store the generation results.
 - `PRETRAINED_MODEL_PATH`: the path to place the pretrained model, which will be used for generation.
 - `SAMPLE_SIZE`: set the number of generated shapes to `SAMPLE_SIZE`.
-- `SHAPE_NAME`: correspond to the generated 3D shape class. Five classes (`airplane`, `chair`, `guitar`, `lamp`, and `motorbike`) are supported. 
 
-Note that, the `SHAPE_NAME` and `PRETRAINED_MODEL_PATH` should be strictly consistent. 
-For example, if the `PRETRAINED_MODEL_PATH` indicates a model trained over `airplane`, we should set `airplane` for `SHAPE_NAME`. 
-Then we can directly run the `test_net.py` to synthesize `SAMPLE_SIZE` shapes as:
+Then you can directly run the `test_net.py` to synthesize `SAMPLE_SIZE` shapes as:
 ```
 python test_net.py
 ```
@@ -136,7 +137,7 @@ Please unzip the downloaded file and paste the path of a checkpoint file (`.cptk
 
 
 ## Cite ##
-If you find this code or data useful in your work, please cite our paper:
+If you use our code/model/data, please cite our paper:
 ```
 @article{pageSAGnet19,
 title = {SAGNet: Structure-aware Generative Network for 3D-Shape Modeling},

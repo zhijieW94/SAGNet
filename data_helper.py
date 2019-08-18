@@ -23,75 +23,82 @@ class data_runner(object):
         self.for_training = for_training
 
         self.load_config_info(config_dict=config_dict)
-        self.load_dataset(config_dict)    # load the dataset for a certain kind
+
+        if for_training:
+            self.load_dataset(config_dict)  # load the dataset for a certain kind
 
     def load_config_info(self, config_dict):
         self.config_dict = config_dict
-
-        self.shape_name = self.config_dict['TRAIN']['SHAPE_NAME']
 
         self.cube_len = self.config_dict['CUBE_LEN']
         self.bbox_size = self.config_dict['BOUNDING_BOX_SIZE']
         self.embedding_size = self.config_dict['EMBEDDING_VECOTR_SIZE']
         self.max_part_size = self.config_dict['MAX_PART_SIZE']
 
-        if self.for_training:
-            self.gpu_nums = self.config_dict['TRAIN']['NUM_GPUS']
-
-            self.batch_size = self.config_dict['TRAIN']['BATCH_SIZE']
-        else:
-            self.gpu_nums = 1
-
-            self.batch_size = 1
-
         self.input_pls = {}
         self.obj_num = 0
-        self.voxel_array = np.array([])  # used to store the voxel information in a list
-        self.bbox_array = np.array([])  # used to store the baounding box information in a list
-        self.part_obj_index_list = []  # the index of part_obj_index_list stands for the index of a certain object and the value is the index of a part
-        self.obj_part_index_list = []  # the index of this list is the index of an object and the value stands for the index of a certain part
 
-        self.bbox_mean = 0
-        self.bbox_std = 0
+        if self.for_training:
+            self.gpu_nums = self.config_dict['TRAIN']['NUM_GPUS']
+            self.batch_size = self.config_dict['TRAIN']['BATCH_SIZE']
 
-        self.global_steps = tf.placeholder(tf.float32, shape=(), name="global_steps")
+            self.shape_name = self.config_dict['TRAIN']['SHAPE_NAME']
 
-        initial_vert_lr = config_dict['TRAIN']['VERT_LEARNING_RATE']
-        initial_edge_lr = config_dict['TRAIN']['EDGE_LEARNING_RATE']
-        initial_graph_gen_lr = config_dict['TRAIN']['GRAPH_GEN_LEARNING_RATE']
+            self.voxel_array = np.array([])  # used to store the voxel information in a list
+            self.bbox_array = np.array([])  # used to store the baounding box information in a list
+            self.part_obj_index_list = []  # the index of part_obj_index_list stands for the index of a certain object and the value is the index of a part
+            self.obj_part_index_list = []  # the index of this list is the index of an object and the value stands for the index of a certain part
 
-        vert_gamma = config_dict['TRAIN']['VERT_GAMMA']
-        edge_gamma = config_dict['TRAIN']['EDGE_GAMMA']
-        graph_gen_gamma = config_dict['TRAIN']['GRAPH_GEN_GAMMA']
+            self.global_steps = tf.placeholder(tf.float32, shape=(), name="global_steps")
 
-        vert_lr_decay_step = config_dict['TRAIN']['VERT_LR_DECAY_STEP']
-        edge_lr_decay_step = config_dict['TRAIN']['EDGE_LR_DECAY_STEP']
-        graph_gen_lr_decay_step = config_dict['TRAIN']['GRAPH_GEN_LR_DECAY_STEP']
+            initial_vert_lr = config_dict['TRAIN']['VERT_LEARNING_RATE']
+            initial_edge_lr = config_dict['TRAIN']['EDGE_LEARNING_RATE']
+            initial_graph_gen_lr = config_dict['TRAIN']['GRAPH_GEN_LEARNING_RATE']
 
-        self.vert_lr = tf.train.exponential_decay(initial_vert_lr,
-                                                 global_step=self.global_steps,
-                                                 decay_steps=vert_lr_decay_step,
-                                                 decay_rate=vert_gamma,
-                                                 staircase=True)
-        self.edge_lr = tf.train.exponential_decay(initial_edge_lr,
-                                                 global_step=self.global_steps,
-                                                 decay_steps=edge_lr_decay_step,
-                                                 decay_rate=edge_gamma,
-                                                 staircase=True)
-        self.graph_gen_lr = tf.train.exponential_decay(initial_graph_gen_lr,
+            vert_gamma = config_dict['TRAIN']['VERT_GAMMA']
+            edge_gamma = config_dict['TRAIN']['EDGE_GAMMA']
+            graph_gen_gamma = config_dict['TRAIN']['GRAPH_GEN_GAMMA']
+
+            vert_lr_decay_step = config_dict['TRAIN']['VERT_LR_DECAY_STEP']
+            edge_lr_decay_step = config_dict['TRAIN']['EDGE_LR_DECAY_STEP']
+            graph_gen_lr_decay_step = config_dict['TRAIN']['GRAPH_GEN_LR_DECAY_STEP']
+
+            self.vert_lr = tf.train.exponential_decay(initial_vert_lr,
                                                       global_step=self.global_steps,
-                                                      decay_steps=graph_gen_lr_decay_step,
-                                                      decay_rate=graph_gen_gamma,
+                                                      decay_steps=vert_lr_decay_step,
+                                                      decay_rate=vert_gamma,
                                                       staircase=True)
+            self.edge_lr = tf.train.exponential_decay(initial_edge_lr,
+                                                      global_step=self.global_steps,
+                                                      decay_steps=edge_lr_decay_step,
+                                                      decay_rate=edge_gamma,
+                                                      staircase=True)
+            self.graph_gen_lr = tf.train.exponential_decay(initial_graph_gen_lr,
+                                                           global_step=self.global_steps,
+                                                           decay_steps=graph_gen_lr_decay_step,
+                                                           decay_rate=graph_gen_gamma,
+                                                           staircase=True)
 
-        initial_kl_loss_ratio = config_dict['TRAIN']['RECON_GEN_INITIAL_LOSS_RATIO']
-        kl_loss_gamma = config_dict['TRAIN']['RECON_GEN_RATIO_GAMMA']
-        kl_loss_decay_step = config_dict['TRAIN']['RECON_GEN_DECAY_STEP']
-        self.kl_loss_ratio = tf.train.exponential_decay(initial_kl_loss_ratio,
-                                                   global_step=self.global_steps,
-                                                   decay_steps=kl_loss_decay_step,
-                                                   decay_rate=kl_loss_gamma,
-                                                   staircase=False)
+            initial_kl_loss_ratio = config_dict['TRAIN']['RECON_GEN_INITIAL_LOSS_RATIO']
+            kl_loss_gamma = config_dict['TRAIN']['RECON_GEN_RATIO_GAMMA']
+            kl_loss_decay_step = config_dict['TRAIN']['RECON_GEN_DECAY_STEP']
+            self.kl_loss_ratio = tf.train.exponential_decay(initial_kl_loss_ratio,
+                                                            global_step=self.global_steps,
+                                                            decay_steps=kl_loss_decay_step,
+                                                            decay_rate=kl_loss_gamma,
+                                                            staircase=False)
+        else:
+            self.gpu_nums = 1
+            self.batch_size = self.config_dict['TRAIN']['BATCH_SIZE']
+
+            self.shape_name = config_dict['model_info']['model_class']
+
+            self.visible_part_indexes_array = config_dict['model_info']['part_masks']
+            self.obj_num = len(config_dict['model_info']['part_masks'])
+
+            self.bbox_means_array = config_dict['model_info']['bbox_info']['bbox_mean']
+            self.bbox_stds_array = config_dict['model_info']['bbox_info']['bbox_variance']
+            self.bbox_benchmark_array = config_dict['model_info']['bbox_info']['bbox_benchmark']
 
 
     ##############################################################################
@@ -431,16 +438,20 @@ class data_runner(object):
 
         return dict(input_pls)
 
-    def get_inputs_for_testing(self):
+    def get_inputs_for_testing(self, cur_iter):
         cur_selected_obj_idx = np.random.randint(self.obj_num, size=[self.gpu_nums, self.batch_size])
 
         current_visible_part_index = self.visible_part_indexes_array[cur_selected_obj_idx]
         gaussian_noise = np.random.normal(0, 1, [self.gpu_nums, self.batch_size, self.embedding_size])
+        # gaussian_noise = np.full((self.gpu_nums, self.batch_size, self.embedding_size), 1) * (cur_iter + 1)
+
+        print "Gaussian noise:\n"
+        print gaussian_noise
 
         input_pls = {}
         input_pls['gaussian_noise'] = gaussian_noise
         input_pls['visible_part_index'] = current_visible_part_index
-        input_pls['selected_model_idx'] = np.random.randint(self.obj_num, size=[self.gpu_nums, self.batch_size])
+        input_pls['selected_model_idx'] = cur_selected_obj_idx
 
         return input_pls
 
@@ -734,3 +745,44 @@ class data_runner(object):
                 output_content = "%f " % (value)
                 out_f.write(output_content)
             out_f.write("\n")
+
+
+    ##############################################################################
+    # Functions to output model config info
+    ##############################################################################
+    def write_model_info_to_file(self, output_dir=None):
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+
+        output_file_name = "%s_model_info.txt" % self.shape_name
+        output_file_path = os.path.join(output_dir, output_file_name)
+
+        with open(output_file_path, "w") as out_f:
+            out_f.write("model_class\n")
+            out_f.write("%s\n" % self.shape_name)
+
+            out_f.write("\nbbox_mean\n")
+            for p_means in self.bbox_means_array:
+                for value in p_means:
+                    output_content = "%f " % (value)
+                    out_f.write(output_content)
+                out_f.write("\n")
+
+            out_f.write("\nbbox_variance\n")
+            for p_stds in self.bbox_stds_array:
+                for value in p_stds:
+                    output_content = "%f " % (value)
+                    out_f.write(output_content)
+                out_f.write("\n")
+
+            out_f.write("\nbbox_benchmark\n")
+            for p_benchmark in self.bbox_benchmark_array:
+                for value in p_benchmark:
+                    output_content = "%f " % (value)
+                    out_f.write(output_content)
+                out_f.write("\n")
+
+        mask_file_name = "%s_mask.mat" % self.shape_name
+        mask_file_path = os.path.join(output_dir, mask_file_name)
+
+        io.savemat(mask_file_path, {'masks': self.visible_part_indexes_array})

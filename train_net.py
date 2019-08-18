@@ -46,7 +46,6 @@ def train_net(sess, config_dict):
         max_part_size = 2  # toy_examples
     config_dict['MAX_PART_SIZE'] = max_part_size
 
-
     # Construct and initialize a data_runner
     data_helper = data_runner(config_dict, for_training=True)
     inputs = data_helper.get_placeholders()
@@ -90,6 +89,10 @@ def train_net(sess, config_dict):
     current_log_dir = os.path.join(log_dir, cur_dir_name)
     train_writer = tf.summary.FileWriter(current_log_dir, sess.graph)
 
+    # write the model info to file
+    model_info_dir = os.path.join(model_dir, cur_dir_name)
+    data_helper.write_model_info_to_file(model_info_dir)
+
     iter_timer = Timer()
 
     saver = tf.train.Saver(tf.trainable_variables())
@@ -108,6 +111,9 @@ def train_net(sess, config_dict):
     else:
         restore_epoch = 0
 
+    # model_vars = tf.trainable_variables()
+    # tf.contrib.slim.model_analyzer.analyze_vars(model_vars, print_info=True)
+
     current_iter = -1
 
     last_snapshot_iter = -1
@@ -121,6 +127,7 @@ def train_net(sess, config_dict):
 
         if cur_iter == 0:
             print "train neural network---------------------------------------------------"
+
 
         if (cur_iter + 1) % summary_freq == 0 or cur_iter < 20:
             _, summaries = train_net.train(sess, f_dict, cur_iter, is_summary=True)

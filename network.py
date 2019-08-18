@@ -26,9 +26,7 @@ def layer(op):
         if name in self.layers:
             print('overriding layer %s!!!!' % name)
         self.layers[name] = layer_output
-        # This output is now the input for the next layer.
         self.feed(layer_output)
-        # Return self for chained calls.
         return self
     return layer_decorated
 
@@ -46,7 +44,6 @@ class Network(object):
         assert len(args)!=0
         self.inputs = []
         for layer in args:
-            # We get the right layers corresponding to the names in the list
             if isinstance(layer, basestring):
                 try:
                     layer = self.layers[layer]
@@ -94,7 +91,6 @@ class Network(object):
             tf.summary.histogram(name, var)
 
     def get_unique_name(self, prefix):
-        # in this function, we count the number of certain kind of layers
         id = sum(t.startswith(prefix) for t,_ in self.layers.items())+1
         return '%s_%d'%(prefix, id)
 
@@ -107,9 +103,6 @@ class Network(object):
     def conv_residual_block(self, input_layer, k_size, output_channel, init_weight, name=None, leaky_value=0.0,
                             padding='SAME', trainable=True, reuse=False, bottle_neck=False):
         input_channel = input_layer.get_shape().as_list()[-1]
-
-        # if input_channel * 2 != output_channel or input_channel != output_channel:
-        #     raise ValueError("Output and input channel does not match in convolution residual blocks!!!")
 
         if not (input_channel * 2 == output_channel or input_channel == output_channel) == True:
             raise ValueError("Output and input channel does not match in convolution residual blocks!!!")
@@ -159,9 +152,6 @@ class Network(object):
     def deconv_residual_block(self, input_layer, k_size, output_channel, target_shape, init_weights, name=None, leaky_value=0.0,
                               padding='SAME', trainable=True, reuse=False, bottle_neck=True):
         input_channel = input_layer.get_shape().as_list()[-1]
-
-        # if input_channel != output_channel * 2 or input_channel != output_channel:
-        #     raise ValueError("Output and input channel does not match in deconvolution residual blocks!!!")
 
         if not (input_channel == output_channel * 2 or input_channel == output_channel) == True:
             raise ValueError("Output and input channel does not match in deconvolution residual blocks!!!")
@@ -215,7 +205,6 @@ class Network(object):
             return res_block_out
 
 
-    # @layer
     def conv3d(self, input, k_size, out_depth, name, init_weights, strides, init_biases=None, padding=DEFAULT_PADDING, leaky_value=0.0,
                relu=True, has_biases=True, batch_norm=True, trainable=True, reuse=False):
         self.validate_padding(padding)
@@ -224,13 +213,6 @@ class Network(object):
         in_depth = input.get_shape()[-1]
         with tf.variable_scope(name) as scope:
             if reuse: tf.get_variable_scope().reuse_variables()
-
-            # kernel = make_var(weight_name, [k_size, k_size, k_size, in_depth, out_depth], init_weights, trainable=trainable)
-            # biases = make_var(biases_name, [out_depth], init_biases, trainable=trainable)
-            # conv3d = tf.nn.conv3d(input, kernel, strides=strides, padding=padding, name=name)
-            # bias_out = tf.nn.bias_add(conv3d, biases)
-            #
-            # conv_out = bias_out
 
             if has_biases:
                 kernel = make_var(weight_name, [k_size, k_size, k_size, in_depth, out_depth], init_weights, trainable=trainable)
@@ -248,7 +230,6 @@ class Network(object):
                 conv_out = lrelu(conv_out, leaky_value, scope.name)
             return conv_out
 
-    # @layer
     def deconv3d(self, input, k_size, out_depth, name, target_shape, init_weights, strides, init_biases=None, leaky_value=0.0, relu=True, batch_norm=True,
                  padding=DEFAULT_PADDING, has_biases=False, trainable=True, reuse=False):
         self.validate_padding(padding)
@@ -257,13 +238,6 @@ class Network(object):
         in_depth = input.get_shape()[-1]
         with tf.variable_scope(name) as scope:
             if reuse: tf.get_variable_scope().reuse_variables()
-            # kernel = make_var(weight_name, [k_size, k_size, k_size, out_depth, in_depth], init_weights, trainable=trainable)
-            # biases = make_var(biases_name, [out_depth], init_biases, trainable=trainable)
-            #
-            # deconv3d = tf.nn.conv3d_transpose(input, kernel, target_shape, strides=strides, padding=padding, name=name)
-            # bias_out = tf.nn.bias_add(deconv3d, biases)
-            #
-            # deconv_out = bias_out
 
             if has_biases:
                 kernel = make_var(weight_name, [k_size, k_size, k_size, out_depth, in_depth], init_weights, trainable=trainable)
@@ -278,7 +252,6 @@ class Network(object):
             if batch_norm:
                 deconv_out = tf.contrib.layers.batch_norm(deconv_out, is_training=trainable)
             if relu:
-                # deconv_out = tf.nn.relu(deconv_out, scope.name)
                 deconv_out = lrelu(deconv_out, leaky_value, name=scope.name)
             return deconv_out
 
@@ -327,14 +300,13 @@ class Network(object):
 
     @layer
     def concat(self, inputs, axis, name):
-        # return tf.concat(concat_dim=axis, values=inputs, name=name)
         return tf.concat(axis=axis, values=inputs, name=name)
+
 
     @layer
     def fc(self, input, num_out, name, relu=True, leaky_value = 0.0, trainable=True, reuse=False):
         with tf.variable_scope(name) as scope:
-            if reuse:
-                tf.get_variable_scope().reuse_variables()
+            if reuse: tf.get_variable_scope().reuse_variables()
             # only use the first input
             if isinstance(input, tuple):
                 input = input[0]
@@ -361,7 +333,6 @@ class Network(object):
             biases = make_var('biases', [num_out], init_biases, trainable)
 
             if relu:
-                # fc = tf.nn.relu(tf.matmul(feed_in, weights) + biases, name=scope.name)
                 fc = lrelu(tf.matmul(feed_in, weights) + biases, leaky_value, scope.name)
             else:
                 fc = tf.add(tf.matmul(feed_in, weights), biases, name=scope.name)

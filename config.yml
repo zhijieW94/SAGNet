@@ -1,7 +1,7 @@
 RNN_STATE_DIM: 512  # the feature dimension for RNNs
 RNN_CELL_DEPTH: 2  # the depth for RNNs
 
-EMBEDDING_VECOTR_SIZE: 320  # the size of embedding vector in the network
+EMBEDDING_VECOTR_SIZE: 200  # the size of embedding vector in the network
 
 LEAK_VALUE: 0.05  # the value of leak relu
 
@@ -10,11 +10,11 @@ BOUNDING_BOX_SIZE: 6 # the size of feature vector of bounding box
 
 TRAIN:
   BATCH_SIZE: 10  # mini batch size
-  GPU_ID: [0, 1, 2, 3] # the gpus for training
+  GPU_ID: [4, 5, 6, 7] # the gpus for training
 
   # Loss hyperparameters
   VOXEL_BBOX_LOSS_RATIO: 0.4  # The training loss weight
-  GRAPH_REC_KL_LOSS_RATIO: 0.995
+  GRAPH_REC_KL_LOSS_RATIO: 0.99
 
   RECON_GEN_INITIAL_LOSS_RATIO: 1.0   # control the influence between reconstruction and generation loss
   RECON_GEN_RATIO_GAMMA: 0.9
@@ -23,7 +23,7 @@ TRAIN:
   FINAL_KL_RATIO: 0.8
 
   # Learning rate
-  VERT_LEARNING_RATE: 0.6   # Decay the learning rate
+  VERT_LEARNING_RATE: 0.6   # Learning rate decay
   VERT_GAMMA: 0.9
   VERT_LR_DECAY_STEP: 2300 
 
@@ -40,7 +40,7 @@ TRAIN:
   SNAPSHOT_FREQ: 2000  # The frequency to save model snapshot and summary
   SUMMARY_FREQ: 20
 
-  ITERATION_NUM: 3  # the iteration number when exchange geometry and structure information
+  EXCHANGE_NUM: 3  # The iteration number when exchange geometry and structure information
   DROPOUT_KEEP_PROB: 0.5
 
   MAX_GRADIENT_NORM: 0.5
@@ -58,13 +58,13 @@ TRAIN:
 
   PRETRAINED_MODEL_PATH: ""
 
-  SHAPE_NAME: "motorbike" # "motorbike"/"chair"/"airplane"/"guitar"/"lamp"/"toy_examples"
+  SHAPE_NAME: "guitar" # "motorbike"/"chair"/"airplane"/"guitar"/"lamp"/"toy_examples"
 
 TEST:
-  GPU_ID: [7] # the gpus for testing
+  GPU_ID: [4] # the gpus for testing
 
-  SAMPLE_SIZE: 10
-  SHAPE_NAME: "motorbike" # "motorbike"/"chair"/"airplane"/"guitar"/"lamp"/"toy_examples"
+  SAMPLE_SIZE: 100
 
   RESULTS_DIRECTORY: 'nn_exp_results/testing_results/'
-  PRETRAINED_MODEL_PATH: ''
+  PRETRAINED_MODEL_PATH: 'nn_exp_results/models/motorbike_2019_08_18_01_25_33/motorbike_79999.ckpt'
+
