@@ -2,6 +2,10 @@
 by Zhijie Wu, Xiang Wang, Di Lin, Dani Lischinski, Daniel Cohen-Or, Hui Huang
 
 
+## Project page
+The project page is available at [https://vcc.tech/research/2019/SAGnet/](https://vcc.tech/research/2019/SAGnet/).
+
+
 ## Introduction ##
 This repository contains an official implementation for [SAGNet: Structure-aware Generative Network for 3D-Shape Modeling](http://vcc.szu.edu.cn/file/upload_file//image/research/att201905040553/SAGNet.pdf) by Wu et al. 
 This model takes voxel maps as geometry and bounding boxes as structure and learn a latent space through a joint analysis.
@@ -14,9 +18,6 @@ In addition, codes to visualize the synthesized results are also included.
 If you have questions, please feel free to contact Zhijie Wu (wzj.micker@gmail.com).
 
 ![overview](overview.jpg)
-
-## Project page
-The project page is available at [https://vcc.tech/research/2019/SAGnet/](https://vcc.tech/research/2019/SAGnet/).
 
 
 ## Starting ##
@@ -102,7 +103,6 @@ TEST:
   PRETRAINED_MODEL_PATH: 'trained_models/weights_67999.ckpt'
 
   SAMPLE_SIZE: 10
-  SHAPE_NAME: "motorbike"
 ```
 In the `TEST` section, this file (`config.yml`) has the following options:
 - `GPU_ID`: indicate which gpu should be used for testing.
@@ -110,6 +110,8 @@ In the `TEST` section, this file (`config.yml`) has the following options:
 - `PRETRAINED_MODEL_PATH`: the path to place the pretrained model, which will be used for generation.
 - `SAMPLE_SIZE`: set the number of generated shapes to `SAMPLE_SIZE`.
 
+If everything is OK, a `model_info.txt` will be included in the directory that stores corresponding pretrained model.
+And the model info file is used to indicate which class the generated shapes belong to and some other essential information for shape synthesis.
 Then you can directly run the `test_net.py` to synthesize `SAMPLE_SIZE` shapes as:
 ```
 python test_net.py
