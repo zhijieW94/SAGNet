@@ -1,5 +1,5 @@
 # SAGNet: Structure-aware Generative Network for 3D-Shape Modeling
-by Zhijie Wu, Xiang Wang, Di Lin, Dani Lischinski, Daniel Cohen-Or, Hui Huang
+by Zhijie Wu, Xiang Wang, [Di Lin](https://vcc.tech/Di_Lin/), [Dani Lischinski](http://danix3d.droppages.com/), [Daniel Cohen-Or](http://www.math.tau.ac.il/~dcor/), [Hui Huang](https://vcc.tech/~huihuang)
 
 
 ## Project page
@@ -133,9 +133,8 @@ And when you aim to visualize a single motor shape (e.g. named `1d8fb258aac4175a
 
 
 ## Checkpoints ##
-Checkpoint files of the final model trained over all five classes are provided (Coming soon).
-
-Please unzip the downloaded file and paste the path of a checkpoint file (`.cptk`) to the `PRETRAINED_MODEL_PATH` option.
+Checkpoint files of the final model trained over all five classes are provided.
+Please download them [here](https://drive.google.com/file/d/1rRAwlPE9pORn7r77VjK_H4iw-TCfNUXX/view?usp=sharing) and then paste the path of the unzipped checkpoint file (`.cptk`) to the `PRETRAINED_MODEL_PATH` option.
 
 
 ## Cite ##
