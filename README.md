@@ -140,13 +140,13 @@ Please download them [here](https://drive.google.com/file/d/1rRAwlPE9pORn7r77VjK
 ## Cite ##
 If you use our code/model/data, please cite our paper:
 ```
-@article{pageSAGnet19,
+@article{SAGnet19,
 title = {SAGNet: Structure-aware Generative Network for 3D-Shape Modeling},
 author = {Zhijie Wu and Xiang Wang and Di Lin and Dani Lischinski and Daniel Cohen-Or and Hui Huang},
 journal = {ACM Transactions on Graphics (Proceedings of SIGGRAPH 2019)},
 volume = {38},
 number = {4},
-pages = {91:1--91:14},
+pages = {91:1--91:14},  
 year = {2019},
 } 
 ```
