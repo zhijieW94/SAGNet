@@ -1,5 +1,5 @@
 # SAGNet: Structure-aware Generative Network for 3D-Shape Modeling
-by Zhijie Wu, Xiang Wang, [Di Lin](https://vcc.tech/Di_Lin/), [Dani Lischinski](http://danix3d.droppages.com/), [Daniel Cohen-Or](http://www.math.tau.ac.il/~dcor/), [Hui Huang](https://vcc.tech/~huihuang)
+by [Zhijie Wu](https://zhijiew94.github.io/), Xiang Wang, [Di Lin](https://vcc.tech/Di_Lin/), [Dani Lischinski](http://danix3d.droppages.com/), [Daniel Cohen-Or](http://www.math.tau.ac.il/~dcor/), [Hui Huang](https://vcc.tech/~huihuang)
 
 
 ## Project page
