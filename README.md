@@ -131,6 +131,8 @@ With the provided tool, you can visualize a group of results or a single shape.
 For example, to visualize all the `motorbike` training data, you should click the `Open` button and choose the `data/motorbike` directory (by default).
 And when you aim to visualize a single motor shape (e.g. named `1d8fb258aac4175a5834749a5ef37100`), just click `Openone` button and choose the `data/motorbike/1d8fb258aac4175a5834749a5ef37100` directory.
 
+**Note: If you have problems with the vtk or PyQt when run the visualization codes, please download our Anaconda environment and then clone it. Here is the link: https://drive.google.com/file/d/1W_Uy0W-2loC2V99tvPo6ZO4CEZbxbvg-/view?usp=sharing. You can solve most problems in this way.**
+
 
 ## Checkpoints ##
 Checkpoint files of the final model trained over all five classes are provided.
